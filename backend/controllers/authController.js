@@ -9,17 +9,15 @@ export const login = async (req, res) => {
     // Check if username exists
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ msg: "Username Doesn't exists" });
+      return res.status(401).json({ error: "Username Doesn't exists" });
     }
     // Check if password matches
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({ msg: "Invalid Password" });
+      return res.status(401).json({ error: "Invalid Password" });
     }
 
-    generateJwtToken(user._id, res);
-
-    res.status(201).json({ user, message: "User logged in" });
+    generateJwtToken(user, res);
   } catch (err) {
     console.log("error at login controller: ", err.message);
     res.status(500).json({ error: "Internal server error" });
@@ -58,10 +56,8 @@ export const signup = async (req, res) => {
 
     if (newUser) {
       //generate JWT token
-      generateJwtToken(newUser._id, res);
-
+      generateJwtToken(newUser, res);
       await newUser.save();
-      res.status(200).json(newUser);
     } else {
       res.status(400).json({ error: "invalid user data" });
     }

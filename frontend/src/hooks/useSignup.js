@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
+  const { setAuthUser } = useContext(AuthContext); // TODO: Add auth context for
 
   const signup = async ({
     name,
@@ -33,6 +35,12 @@ const useSignup = () => {
         { name, username, password, confirmPassword, gender },
         config
       );
+
+      //save info to local storage
+      localStorage.setItem("loggedInUser", JSON.stringify(data));
+
+      //set context
+      setAuthUser(data);
 
       console.log(data);
     } catch (err) {

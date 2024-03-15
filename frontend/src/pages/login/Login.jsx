@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const { loading, login } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(credentials);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-xl shadow-md bg-trannsparent bg-clip-padding backdrop-flter backdrop-blur-md">
@@ -9,7 +21,7 @@ const Login = () => {
           LOGIN
           <span className="text-orange-300 pl-3 caret-transparent">MyChat</span>
         </h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label className="label p-2">
               <span className="text-base label-text">Username</span>
@@ -17,9 +29,11 @@ const Login = () => {
 
             <input
               type="text"
-              name="username"
-              id="username"
-              placeholder="Your username..."
+              value={credentials.username}
+              onChange={(e) =>
+                setCredentials({ ...credentials, username: e.target.value })
+              }
+              placeholder="Your Username"
               className="w-full input input-bordered h-12"
             />
           </div>
@@ -30,9 +44,11 @@ const Login = () => {
 
             <input
               type="password"
-              name="password"
-              id="password"
-              placeholder="Your password..."
+              value={credentials.password}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
+              placeholder="Your Password"
               className="w-full input input-bordered h-12"
             />
           </div>
@@ -43,8 +59,15 @@ const Login = () => {
             Don't have an account?
           </Link>
           <div>
-            <button className="btn btn-block btn-md mt-4 bg-orange-400 text-black hover:text-white">
-              LOGIN
+            <button
+              className="btn btn-block btn-md mt-4 bg-orange-400 text-black hover:text-white"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "LOGIN"
+              )}
             </button>
           </div>
         </form>
