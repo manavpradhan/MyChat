@@ -11,16 +11,18 @@ const Contacts = () => {
   return (
     <div className="py-2 flex flex-col overflow-auto caret-transparent">
       {myContacts.map((contact, idx) => {
-        <Conversation
-          key={contact._id}
-          contactInfo={contact}
-          emoji={getRandomEmoji()}
-          lastIdx={idx === myContacts.length - 1}
-        />;
+        return (
+          <Conversation
+            key={contact._id}
+            contactInfo={contact}
+            emoji={getRandomEmoji()}
+            lastIdx={idx === myContacts.length - 1}
+          />
+        );
       })}
 
       {loading ? (
-        <span className="loading loaading-spinner mx-auto"></span>
+        <span className="loading loading-spinner mx-auto"></span>
       ) : null}
     </div>
   );

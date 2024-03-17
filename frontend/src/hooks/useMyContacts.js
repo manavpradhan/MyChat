@@ -10,10 +10,6 @@ const useMyContacts = () => {
     const getContacts = async () => {
       setLoading(true);
       try {
-        const config = {
-          headers: { "Content-Type": "application/json" },
-        };
-
         const { data } = await axios.get("/api/users/");
 
         setMyContacts(data);
