@@ -52,7 +52,9 @@ export const getAllMessages = async (req, res) => {
     }).populate("messages");
 
     if (!conversation) {
-      return res.status(404).json({ error: "No conversation found" });
+      return res
+        .status(404)
+        .json({ error: "No conversation found", erc: "NCF" });
     }
 
     res.status(200).json(conversation.messages);
