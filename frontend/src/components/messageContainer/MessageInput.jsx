@@ -17,8 +17,6 @@ const MessageInput = () => {
     }
     await sendMessage(message);
 
-    toast.success("message sent");
-
     setMessage("");
   };
 

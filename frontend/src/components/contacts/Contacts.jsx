@@ -6,8 +6,6 @@ import { getRandomEmoji } from "../../utils/emojis.js";
 const Contacts = () => {
   const { loading, myContacts } = useMyContacts();
 
-  console.log(myContacts);
-
   return (
     <div className="py-2 flex flex-col overflow-auto caret-transparent">
       {myContacts.map((contact, idx) => {

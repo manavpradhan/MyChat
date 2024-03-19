@@ -5,7 +5,7 @@ import MessageSkeleton from "../skeletons/MessageSkeleton";
 
 const ChatWindow = () => {
   const { loading, messages } = useGetMessages();
-  console.log(messages);
+  // console.log(messages);
 
   const lastMessageBox = useRef();
 

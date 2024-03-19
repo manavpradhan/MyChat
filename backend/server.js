@@ -1,3 +1,4 @@
+import { app, server } from "./socket/socket.js";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -6,8 +7,6 @@ import databaseConnection from "./utils/connectToDb.js";
 import authRoutes from "./routes/auth.js";
 import msgRoutes from "./routes/messages.js";
 import userRoutes from "./routes/users.js";
-
-const app = express();
 
 //ENV VARIABLE setup
 dotenv.config();
@@ -21,7 +20,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", msgRoutes);
 app.use("/api/users", userRoutes);
 
-app.listen(port, () => {
+server.listen(port, () => {
   databaseConnection();
   console.log(`server is running at port : ${port}`);
 });
