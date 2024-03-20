@@ -1,5 +1,6 @@
 import ConversationModel from "../models/conversationModel.js";
 import MessageModel from "../models/msgModel.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -35,6 +36,13 @@ export const sendMessage = async (req, res) => {
     //both will run in parallel
     await Promise.all([conversation.save(), newMessage.save()]);
 
+    // SOCKET IO LOGIC for realtime chat user experience
+    const receiverSocketId = getReceiverSocketId(recieverId);
+
+    if (receiverSocketId) {
+      // io.to(<socket_id>).emit() used to send events to specific client
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
     res.status(201).json(newMessage);
   } catch (err) {
     console.log("error at sending message controller: ", err.message);

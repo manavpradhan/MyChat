@@ -11,9 +11,16 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      console.log("hi i m in useEffect");
-      const socket = io("http://localhost:8000");
+      const socket = io("http://localhost:8000", {
+        query: {
+          userId: authUser.user._id,
+        },
+      });
       setSocket(socket);
+
+      socket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users);
+      });
 
       return () => socket.close();
     } else {
