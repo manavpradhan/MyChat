@@ -3,11 +3,14 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 
 import databaseConnection from "./utils/connectToDb.js";
 import authRoutes from "./routes/auth.js";
 import msgRoutes from "./routes/messages.js";
 import userRoutes from "./routes/users.js";
+
+const __dirname = path.resolve();
 
 //ENV VARIABLE setup
 dotenv.config();
@@ -21,6 +24,12 @@ app.use(cookieParser()); // to parse the cokkies we will create
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", msgRoutes);
 app.use("/api/users", userRoutes);
+
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+});
 
 server.listen(port, () => {
   databaseConnection();

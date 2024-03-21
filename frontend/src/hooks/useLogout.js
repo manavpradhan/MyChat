@@ -22,8 +22,6 @@ const useLogout = () => {
 
       //set context
       setAuthUser(null);
-
-      console.log(data);
     } catch (err) {
       toast.error(err.response.data.error);
     } finally {
